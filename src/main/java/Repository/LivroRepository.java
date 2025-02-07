@@ -12,6 +12,7 @@ import java.util.List;
 public class LivroRepository {
     private static LivroRepository instance;
     protected EntityManager entityManager;
+
     public LivroRepository() {
         entityManager = getEntityManager();
     }
@@ -22,12 +23,6 @@ public class LivroRepository {
         }
         return entityManager;
     }
-    public static LivroRepository getInstance() {
-        if (instance == null) {
-            instance = new LivroRepository();
-        }
-        return instance;
-    }
 
     public String salvarRepository(LivroModel livro) throws SQLException {
         try {
@@ -35,6 +30,17 @@ public class LivroRepository {
             entityManager.persist(livro);
             entityManager.getTransaction().commit();
             return "Livro Cadastrado com Sucesso!";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public String atualizarRepository(LivroModel livro) throws SQLException {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(livro);
+            entityManager.getTransaction().commit();
+            return "Livro Atualizado com Sucesso!";
         }catch (Exception e){
             return e.getMessage();
         }

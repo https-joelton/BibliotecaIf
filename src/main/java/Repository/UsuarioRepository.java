@@ -1,6 +1,5 @@
 package Repository;
 
-import Model.LivroModel;
 import Model.UsuarioModel;
 
 import javax.persistence.EntityManager;
@@ -62,6 +61,16 @@ public class UsuarioRepository {
             entityManager.getTransaction().commit();
             return "Deletado com sucesso!";
         } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+    public String atualizarRepository(UsuarioModel usuario) throws SQLException {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.merge(usuario);
+            entityManager.getTransaction().commit();
+            return "Dados Atualizado com Sucesso!";
+        }catch (Exception e){
             return e.getMessage();
         }
     }

@@ -1,6 +1,8 @@
 package Model;
 
 import javax.persistence.*;
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
 
 @Entity
 @PrimaryKeyJoinColumn(name="idLivro")
@@ -13,7 +15,8 @@ public class LivroModel {
     private String tema;
     private String autor;
     private String isbn;
-    private String datapublicacao;
+    @Column(name =  "datapublicacao")
+    private LocalDate datapublicacao;
     private int quantidade;
 
     public Long getIdLivro() {
@@ -56,11 +59,11 @@ public class LivroModel {
         this.isbn = isbn;
     }
 
-    public String getDatapublicacao() {
+    public LocalDate getDatapublicacao() {
         return datapublicacao;
     }
 
-    public void setDatapublicacao(String datapublicacao) {
+    public void setDatapublicacao(LocalDate datapublicacao) {
         this.datapublicacao = datapublicacao;
     }
 

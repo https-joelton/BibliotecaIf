@@ -13,11 +13,13 @@ import java.util.List;
 
 public class BuscarUsuario extends JFrame{
     private UsuarioController usuarioController = new UsuarioController();
+    private UsuarioModel usuarioSelecionado;
     private JPanel panel1;
     private JTable tableUsuarios;
     private JScrollPane scrollUsuario;
     private JButton deletarButton;
     private JButton voltarButton;
+    private JButton atualizarDadosButton;
 
     public BuscarUsuario(){
         this.setTitle("Sistema de Gestão de Biblioteca - CRUD Usuários");
@@ -57,9 +59,25 @@ public class BuscarUsuario extends JFrame{
                 }
             }
         });
+        atualizarDadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int linhaSelecionada = tableUsuarios.getSelectedRow();
+                if(linhaSelecionada != -1) {
+                    Long idUsuarioSelecionado = Long.parseLong(tableUsuarios.getValueAt(linhaSelecionada,0).toString());
+                    UsuarioModel usuarioSelecionado = usuarioController.buscarUsuarioPorId(idUsuarioSelecionado);
+                    EditarUsuarioView usuarioEditar = new EditarUsuarioView(usuarioSelecionado);
+                    usuarioEditar.setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Selecione o usuário que deseja editar");
+                }
+            }
+        });
 
     }
-
+    public UsuarioModel getUsuarioSelecionado() {
+        return usuarioSelecionado;
+    }
     private static class TabelaUsuarios extends AbstractTableModel {
         private UsuarioRepository usuarioRepository = new UsuarioRepository();
         private final String[] colunas = new String[] {"ID", "Nome", "Sexo", "Celular", "Email"};

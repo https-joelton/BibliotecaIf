@@ -16,4 +16,14 @@ public class LivroController {
         LivroModel livro = livroRepository.buscarPorId(idLivroSelecionado);
         return livroRepository.deletarRepository(livro);
     }
+
+    public LivroModel buscarLivroPorId(Long idLivroSelecionado) {
+        LivroRepository livro = new LivroRepository();
+        return livro.buscarPorId(idLivroSelecionado);
+    }
+
+    public String atualizarController(LivroModel livro) throws SQLException {
+        return livroRepository.atualizarRepository(livro);
+    }
+
 }

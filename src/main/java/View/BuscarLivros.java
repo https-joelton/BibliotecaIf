@@ -1,14 +1,20 @@
 package View;
 
+import Controller.EmprestimoController;
 import Controller.LivroController;
+import Model.EmprestimoModel;
 import Model.LivroModel;
+import Model.UsuarioModel;
 import Repository.LivroRepository;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class BuscarLivros extends JFrame{
@@ -18,6 +24,7 @@ public class BuscarLivros extends JFrame{
     private JScrollPane scrollLivros;
     private JButton buttonDeletar;
     private JButton buttonVoltar;
+    private JButton editarButton;
 
     public BuscarLivros(){
         this.setTitle("Sistema de Gestão de Biblioteca - CRUD Livros");
@@ -29,6 +36,7 @@ public class BuscarLivros extends JFrame{
         this.setSize(640, 480);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
         buttonVoltar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -53,6 +61,21 @@ public class BuscarLivros extends JFrame{
                     }
                 }else{
                     JOptionPane.showMessageDialog(null, "Selecione o registro que deseja remover");
+                }
+            }
+        });
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int linhaSelecionada = tableLivrosDisponiveis.getSelectedRow();
+                if(linhaSelecionada != -1) {
+                    Long idLivroSelecionado = Long.parseLong(tableLivrosDisponiveis.getValueAt(linhaSelecionada,0).toString());
+                    LivroModel livroSelecionado = livroController.buscarLivroPorId(idLivroSelecionado);
+                    EditarLivroView livroEditar = new EditarLivroView(livroSelecionado);
+                    livroEditar.setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Selecione o registro que deseja editar");
                 }
             }
         });

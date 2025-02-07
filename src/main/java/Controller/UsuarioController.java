@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.LivroModel;
 import Model.UsuarioModel;
 import Repository.UsuarioRepository;
 
@@ -15,5 +14,14 @@ public class UsuarioController {
     public String deletarController(Long idUsuarioSelecionado) throws SQLException {
         UsuarioModel usuario = usuarioRepository.buscarPorId(idUsuarioSelecionado);
         return usuarioRepository.deletarRepository(usuario);
+    }
+
+    public String atualizarController(UsuarioModel usuario) throws SQLException {
+        return usuarioRepository.atualizarRepository(usuario);
+    }
+
+    public UsuarioModel buscarUsuarioPorId(Long idUsuarioSelecionado) {
+        UsuarioRepository usuario = new UsuarioRepository();
+        return usuario.buscarPorId(idUsuarioSelecionado);
     }
 }

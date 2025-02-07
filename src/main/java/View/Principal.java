@@ -14,6 +14,7 @@ public class Principal extends JFrame{
     private JLabel jlabelTitle;
     private JButton buttonLivrosDisponiveis;
     private JButton sairButton;
+    private JButton emprestimoButton;
 
     public Principal() {
     this.setTitle("Sistema de Gestão de Biblioteca");
@@ -54,6 +55,14 @@ public class Principal extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
+            }
+        });
+        emprestimoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MenuEmprestimoView emprestimoView = new MenuEmprestimoView();
+                emprestimoView.setVisible(true);
+                dispose();
             }
         });
 }

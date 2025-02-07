@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CadastroLivrosView extends JFrame{
     private JPanel panel1;
@@ -18,9 +20,9 @@ public class CadastroLivrosView extends JFrame{
     private JTextField textFieldAutor;
     private JTextField textFieldIsbn;
     private JTextField textFieldQuantidade;
-    private JFormattedTextField formattedTextFieldData;
     private JButton buttonSalvarLivro;
     private JButton buttonVoltar;
+    private JFormattedTextField formattedTextFieldData;
 
     public CadastroLivrosView() {
         this.setTitle("Sistema de Gestão de Biblioteca - CRUD Livros");
@@ -45,7 +47,10 @@ public class CadastroLivrosView extends JFrame{
                 livros.setTema(textFieldTema.getText());
                 livros.setAutor(textFieldAutor.getText());
                 livros.setIsbn(textFieldIsbn.getText());
-                livros.setDatapublicacao(formattedTextFieldData.getText());
+                String data = formattedTextFieldData.getText();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate dataPublicacao = LocalDate.parse(data, formatter);
+                livros.setDatapublicacao(dataPublicacao);
                 livros.setQuantidade(Integer.parseInt(textFieldQuantidade.getText()));
 
                 try {

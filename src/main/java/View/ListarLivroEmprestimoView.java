@@ -78,7 +78,7 @@ public class ListarLivroEmprestimoView extends JFrame{
                                     emprestimo.setLivro(livroSelecionado);
                                     emprestimo.setUsuario(usuarioSelecionado);
                                     emprestimo.setDataEmprestimo(LocalDate.now());
-                                    emprestimo.setDataPrevisaoDevolucao(LocalDate.now().plusDays(14));
+                                    emprestimo.setDataPrevisaoDevolucao(LocalDate.now().plusDays(-1));
 
                                     try {
                                         emprestimoController.realizarEmpresitmoController(emprestimo);

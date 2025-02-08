@@ -21,6 +21,8 @@ public class EmprestimoModel {
     private LocalDate dataDevolucao;
     @Column(name = "dataPrevisaoDevoulacao")
     private LocalDate dataPrevisaoDevolucao;
+    private double multa;
+
 
     public Long getIdEmprestimo() {
         return idEmprestimo;
@@ -68,5 +70,13 @@ public class EmprestimoModel {
 
     public void setDataPrevisaoDevolucao(LocalDate dataPrevisaoDevolucao) {
         this.dataPrevisaoDevolucao = dataPrevisaoDevolucao;
+    }
+
+    public double getMulta() {
+        return multa;
+    }
+
+    public void setMulta(double multa) {
+        this.multa = multa;
     }
 }

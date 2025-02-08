@@ -42,18 +42,23 @@ public class ListarEmprestimos extends JFrame{
                     EmprestimoModel emprestimo = emprestimoController.buscarEmprestimoPorId(idEmprestimoSelecionado);
 
                     if (emprestimo != null && emprestimo.getDataDevolucao() == null) {
+                        double multa = emprestimoController.calcularMulta(emprestimo);
+                        if (multa >0){
+                            JOptionPane.showMessageDialog(null, "Empréstimo atrasado!\nMulta: R$" + multa);
+                            emprestimo.setMulta(multa);
+                        }
                         try {
-                                LivroModel livro = emprestimo.getLivro();
-                                livro.setQuantidade(livro.getQuantidade() + 1);
-                                emprestimo.setDataDevolucao(LocalDate.now());
-                                emprestimoController.confirmarDevolucao(emprestimo);
-                                livroController.atualizarController(livro);
-                                JOptionPane.showMessageDialog(null, "Livro devolvido com sucesso!");
-                                tableEmprestimos.setModel(new TabelaEmprestimo());
+                            LivroModel livro = emprestimo.getLivro();
+                            livro.setQuantidade(livro.getQuantidade() + 1);
+                            emprestimo.setDataDevolucao(LocalDate.now());
+                            emprestimoController.confirmarDevolucao(emprestimo);
+                            livroController.atualizarController(livro);
+                            JOptionPane.showMessageDialog(null, "Livro devolvido com sucesso!");
+                            tableEmprestimos.setModel(new TabelaEmprestimo());
 
-                            } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, "Erro ao registrar devolução: " + ex.getMessage());
-                            }
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Erro ao registrar devolução: " + ex.getMessage());
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Empréstimo já devolvido!");
                     }
@@ -76,7 +81,7 @@ public class ListarEmprestimos extends JFrame{
 
     private static class TabelaEmprestimo extends AbstractTableModel {
         private EmprestimoRepository emprestimoRepository = new EmprestimoRepository();
-        private final String[] colunas = new String[]{"ID", "Livro", "Usuário", "Previsão Devolução", "Data Devolução"};
+        private final String[] colunas = new String[]{"ID", "Livro", "Usuário", "Previsão Devolução", "Data Devolução", "Multa"};
         private List<EmprestimoModel> listaEmprestimo = emprestimoRepository.buscarTodos();
 
         @Override
@@ -98,6 +103,7 @@ public class ListarEmprestimos extends JFrame{
                 case 2 -> emprestimo.getUsuario().getNome();
                 case 3 -> emprestimo.getDataPrevisaoDevolucao();
                 case 4 -> emprestimo.getDataDevolucao();
+                case 5 -> emprestimo.getMulta();
                 default -> "-";
             };
         }

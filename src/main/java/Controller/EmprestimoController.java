@@ -7,6 +7,7 @@ import Repository.LivroRepository;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class EmprestimoController {
     private final EmprestimoRepository emprestimoRepository;
@@ -35,6 +36,17 @@ public class EmprestimoController {
 
     public String confirmarDevolucao(EmprestimoModel emprestimo) throws SQLException {
         return emprestimoRepository.atualizarRepository(emprestimo);
+    }
+
+    public double calcularMulta(EmprestimoModel emprestimo) {
+        if (emprestimo.getDataDevolucao() == null) {
+            LocalDate dia = LocalDate.now();
+            if (dia.isAfter(emprestimo.getDataPrevisaoDevolucao())) {
+                long diasAtraso = ChronoUnit.DAYS.between(emprestimo.getDataPrevisaoDevolucao(), dia);
+                return diasAtraso * 3.0;
+            }
+        }
+        return 0.0;
     }
 
 }
